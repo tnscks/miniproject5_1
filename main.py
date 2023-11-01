@@ -1,4 +1,4 @@
-import request
+import requests
 URL = 'http://localhost:5500/map.html'
 response = requests.get(URL)
 

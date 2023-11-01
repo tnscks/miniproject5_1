@@ -1,4 +1,4 @@
-pip install git+https://github.com/PiotrDabkowski/Js2Py
+
 # streamlit, pandas 라이브러리 불러오기 
 import streamlit as st
 import pandas as pd

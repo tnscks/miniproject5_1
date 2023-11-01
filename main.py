@@ -72,7 +72,7 @@ st.latex(r''' a+ar+ar^2+ae^3''')
 
 st.markdown("지도 2")
 
-
+engTypeToKorJS='''
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,4 +97,4 @@ var map = new naver.maps.Map('map', mapOptions);
 </html>
 
 </body>
-</html> 
+</html> '''

@@ -72,29 +72,69 @@ st.latex(r''' a+ar+ar^2+ae^3''')
 
 st.markdown("지도 2")
 
-engTypeToKorJS='''
-<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>간단한 지도 표시하기</title>
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=61n21o4wj8"></script>
 </head>
 <body>
 <div id="map" style="width:100%;height:400px;"></div>
 
 <script>
-var mapOptions = {
-    center: new naver.maps.LatLng(37.3595704, 127.105399),
-    zoom: 10
-};
-
-var map = new naver.maps.Map('map', mapOptions);
+    var map = new naver.maps.Map('map', {
+        center: new naver.maps.LatLng(37.3595704, 127.105399),
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: naver.maps.MapTypeControlStyle.DROPDOWN
+        }
+    });
+    
+    var trafficLayer = new naver.maps.TrafficLayer({
+        interval: 300000 // 5분마다 새로고침 (최소값 5분)
+    });
+    
+    var btn = $('#traffic');
+    
+    naver.maps.Event.addListener(map, 'trafficLayer_changed', function(trafficLayer) {
+        if (trafficLayer) {
+            btn.addClass('control-on');
+            $("#autorefresh").parent().show();
+            $("#autorefresh")[0].checked = true;
+        } else {
+            btn.removeClass('control-on');
+            $("#autorefresh").parent().hide();
+        }
+    });
+    
+    btn.on("click", function(e) {
+        e.preventDefault();
+    
+        if (trafficLayer.getMap()) {
+            trafficLayer.setMap(null);
+        } else {
+            trafficLayer.setMap(map);
+        }
+    });
+    
+    $("#autorefresh").on("click", function(e) {
+        var btn = $(this),
+            checked = btn.is(":checked");
+    
+        if (checked) {
+            trafficLayer.startAutoRefresh();
+        } else {
+            trafficLayer.endAutoRefresh();
+        }
+    });
+    
+    naver.maps.Event.once(map, 'init', function() {
+        trafficLayer.setMap(map);
+    });
 </script>
 </body>
-</html>
-
-</body>
-</html> '''
+</html>"""

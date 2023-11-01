@@ -2,4 +2,4 @@ pandas
 streamlit
 numpy
 js2py
-request
+requests

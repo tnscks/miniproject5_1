@@ -1,3 +1,6 @@
+import request
+URL = 'http://localhost:5500/map.html'
+response = requests.get(URL)
 
 # streamlit, pandas 라이브러리 불러오기 
 import streamlit as st
